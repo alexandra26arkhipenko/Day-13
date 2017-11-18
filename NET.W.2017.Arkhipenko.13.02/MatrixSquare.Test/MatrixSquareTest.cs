@@ -9,39 +9,41 @@ namespace MatrixSquare.Test
         [TestMethod]
         public void MatrixSqureClassicTest()
         {
-            MatrixSquare<int> matrixSquare = new MatrixSquare<int>(3);
+            var matrixSquare = new MatrixSquare<int>(3);
+            var mt = new MatrixSymmetrical<int>(3);
 
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    matrixSquare[i, j] = i * 1 + j;
-                    
-                }
-            }
+            mt[0, 0] = 1;
+            mt[0, 1] = 2;
+            mt[0, 2] = 3;
 
-            log = false;
+            mt[1, 1] = 4;
+            mt[1, 2] = 5;
+            mt[2, 2] = 6;
+
+
+            var mt1 = new MatrixSquareDiagonal<int>(3);
+
+            mt1[0, 0] = 1;
+            mt1[0, 1] = 2;
+            mt1[0, 2] = 3;
+
+            mt1[1, 1] = 4;
+            mt1[1, 2] = 5;
+            mt1[2, 2] = 6;
+
+
+            _log = false;
+
             matrixSquare.ChangeIndex += Reaction;
             matrixSquare[0, 0] = 125;
-            Assert.IsTrue(log);
+            Assert.IsTrue(_log);
         }
-        private bool log;
 
-        private void Reaction(object sender, ChangeIndexEventArgs e)
+        private bool _log;
+
+        private void Reaction(object sender, ChangeIndexEventArgs<int> e)
         {
-            log = true;
+            _log = true;
         }
-        [TestMethod]
-        public void MatrixSqureDiagonalTest()
-        {
-            MatrixSquareDiagonal<int> matrixSquareDiagonal = new MatrixSquareDiagonal<int>(3);
-
-            log = false;
-            matrixSquareDiagonal.ChangeIndex += Reaction;
-            matrixSquareDiagonal[0, 0] = 125;
-            Assert.IsTrue(log);
-        }
-
-
     }
 }

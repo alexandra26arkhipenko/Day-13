@@ -1,46 +1,82 @@
-﻿namespace MatrixSquare
+﻿using System;
+using System.Drawing;
+
+namespace MatrixSquare
 {
     public class MatrixSymmetrical<T> : MatrixSquare<T>
     {
-        private readonly int _size;
-        private readonly T[] _array;
-        public MatrixSymmetrical(int size) : base(size)
+        #region ctor
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="size">size of square matrix</param>
+        public MatrixSymmetrical(int size) : base(size, (size*size + size)/2)
         {
-            _array = new T[(size*size + size)/2];
         }
-        public override T this[int indexI, int indexJ]
+        #endregion
+
+        #region public
+        /// <summary>
+        /// Indexer. Return the element of the symmetrical matrix.
+        /// </summary>
+        /// <param name="i">The row number in the matrix.</param>
+        /// <param name="j">The column number in the matrix.</param>
+        /// <returns>Element of the matrix</returns>
+        public override T this[int i, int j]
         {
-            set
-            {
-                if (indexJ < indexI)
-                {
-                    var k = indexJ;
-                    indexJ = indexI;
-                    indexI = k;
-                }
-                    _array[indexI*_size +indexJ -Sum(indexI)] = value;
-                    OnChangeIndex(new ChangeIndexEventArgs(indexI, indexJ));
-            }
             get
             {
+                if (i < 0 || i >= Size)
+                    throw new ArgumentOutOfRangeException();
 
-                if (indexJ < indexI)
+                if (j < 0 || j >= Size)
+                    throw new ArgumentOutOfRangeException();
+
+                if (i > j)
                 {
-                    var k = indexJ;
-                    indexJ = indexI;
-                    indexI = k;
+                    var k = i;
+                    i = j;
+                    j = k;
                 }
-                return _array[indexI * _size + indexJ - Sum(indexI)];
+                return arrayMatrix[i * Size + j - Sum(i)];
+            }
+            set
+            {
+                if (i < 0 || i >= Size)
+                    throw new ArgumentOutOfRangeException();
+
+                if (j < 0 || j >= Size)
+                    throw new ArgumentOutOfRangeException();
+
+                if (i > j)
+                {
+                    var k = i;
+                    i = j;
+                    j = k;
+                }
+
+                if (!arrayMatrix[i * Size + j - Sum(i)].Equals(value))
+                {
+                    var oldVAlue = arrayMatrix[i * Size + j - Sum(i)];
+                    arrayMatrix[i * Size + j - Sum(i)] = value;
+                    OnChangeIndex(new ChangeIndexEventArgs<T>(i, j, oldVAlue));
+                }
             }
         }
-        private static int Sum(int index)
+        #endregion
+
+        #region private
+        
+        private int Sum(int i)
         {
             var sum = 0;
-            for (int i = 0; i <= index; i++)
+            for (var j = 0; j <= i; j++)
             {
-                sum += i;
+                sum += j;
             }
             return sum;
         }
+#endregion
     }
+}
 }

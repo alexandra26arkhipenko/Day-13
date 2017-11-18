@@ -2,18 +2,20 @@
 
 namespace MatrixSquare
 {
-    public class ChangeIndexEventArgs : EventArgs
+    public class ChangeIndexEventArgs<T> : EventArgs
     {
-        public int IIndex { get; }
-        public int JIndex { get; }
-        public string Message { get; }
-      
+        /// <summary>
+        /// The indices of the changed element and its old value.
+        /// </summary>
+        public int IndexI { get; }
+        public int IndexJ { get; }
+        public T OldValue { get; }
 
-        public ChangeIndexEventArgs(int iIndex, int jIndex)
+        public ChangeIndexEventArgs(int i, int j, T oldValue)
         {
-            IIndex = iIndex;
-            JIndex = jIndex;
-            Message = String.Format("Element [ {0}, {1} ] was changed", iIndex, jIndex);
+            IndexI = i;
+            IndexJ = j;
+            OldValue = oldValue;
         }
     }
 }

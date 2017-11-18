@@ -5,32 +5,71 @@ namespace MatrixSquare
 {
     public class MatrixSquareDiagonal<T> : MatrixSquare<T>
     {
-        private int size;
-        private readonly T[] array;
-        public MatrixSquareDiagonal(int size) : base(size)
-        {
-            array = new T[size];
-            
-        }
 
-        public override T this[int indexI, int indexJ]
+        #region ctor
+        /// <summary>
+        /// Public constructor.
+        /// </summary>
+        /// <param name="size">size of square matrix</param>
+        public MatrixSquareDiagonal(int size) : base(size, size)
         {
-            set
-            {
-                if (indexJ == indexI)
-                {
-                    array[indexI] = value;
-                    OnChangeIndex(new ChangeIndexEventArgs(indexI, indexJ));
-                }
-               
-            }
+        }
+        #endregion
+
+        #region public
+        /// <summary>
+        /// Indexer. Return the element of the diagonal matrix.
+        /// </summary>
+        /// <param name="i">The row number in the matrix.</param>
+        /// <param name="j">The column number in the matrix.</param>
+        /// <returns>Element of the matrix</returns>
+        public override T this[int i, int j]
+        {
             get
             {
-                if (indexJ == indexI)
-                    return array[indexI];
+                if (i < 0 || i >= Size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (j < 0 || j >= Size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (i == j)
+                {
+                    return arrayMatrix[i];
+                }
+
                 return default(T);
             }
+            set
+            {
+                if (i < 0 || i >= Size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (j < 0 || j >= Size)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                if (i == j)
+                {
+                    if (!arrayMatrix[i].Equals(value))
+                    {
+                        var oldVAlue = arrayMatrix[i];
+                        arrayMatrix[i] = value;
+                        OnChangeIndex(new ChangeIndexEventArgs<T>(i, j, oldVAlue));
+
+                    }
+
+                }
+            }
         }
+#endregion 
 
     }
 }
