@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+
 
 namespace QueueGeneric
 {
@@ -18,6 +18,18 @@ namespace QueueGeneric
         #endregion
 
         #region Queue methods
+
+        /// <summary>
+        /// Count returns length of queue
+        /// </summary>
+        public int Count => queue.Count;
+
+        /// <summary>
+        /// Indexer returns indexinf element   
+        /// </summary>
+        /// <param name="index1"></param>
+        /// <returns></returns>
+        public T this[int index1] => (T)queue.ToArray()[index];
 
         /// <summary>
         /// Method Enqueue adds an element to the end of the Queue.
@@ -38,27 +50,14 @@ namespace QueueGeneric
         /// <returns> the element that is reurned from queue without removing</returns>
         public T Peek() => (T) queue.Peek();
 
-        /// <summary>
-        /// Count returns length of queue
-        /// </summary>
-        public int Count => queue.Count;
+       
 
-        /// <summary>
-        /// Indexer returns indexinf element   
-        /// </summary>
-        /// <param name="index1"></param>
-        /// <returns></returns>
-        public T this[int index1] => (T) queue.ToArray()[index];
+       
         #endregion
 
         #region iterator
        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return queue.GetEnumerator();
-        }
-
-        
+        IEnumerator IEnumerable.GetEnumerator() => queue.GetEnumerator();   
         public bool MoveNext()
         {
             index++;
