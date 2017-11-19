@@ -7,6 +7,24 @@ namespace Tree
     {
         #region public
 
+        public static IComparer<T> GetComparer<T>()
+        {
+            var type = typeof(T);
+
+            if (type == typeof(string))
+            {
+                return StringComparer.CurrentCulture as IComparer<T>;
+            }
+
+            if (!ReferenceEquals(type.GetInterface("IComparable`1"), null) ||
+                !ReferenceEquals(type.GetInterface("IComparable"), null))
+            {
+                return Comparer<T>.Default;
+            }
+
+            throw new ArgumentException();
+        }
+
         #region functions of the tree
         /// <summary>
         /// Add element to the tree
@@ -46,7 +64,7 @@ namespace Tree
         /// <param name="tree"> the tree, where we looking for an element </param>
         /// <param name="item"> the element which we looking for</param>
         /// <param name="comparer">comparator</param>
-        public static T Find<T>(Tree<T> tree, T item, Comparison<T> comparer)
+        public static T Find<T>(ref Tree<T> tree, T item, Comparison<T> comparer)
         {
             while (true)
             {
@@ -71,13 +89,16 @@ namespace Tree
             }
         }
 
+
+       
+
         /// <summary>
         /// Remove element from the tree
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="tree"> child tree </param>
         /// <param name="treeGtreater"> parent tree </param>
-        /// <param name="item">the element which is removing</param>
+        /// <param name="item">the element that is removing</param>
         /// <param name="comparer">comparator</param>
         /// <returns></returns>
         public static bool Remove<T>(ref Tree<T> tree, ref Tree<T> treeGtreater, T item, Comparison<T> comparer)
@@ -151,7 +172,7 @@ namespace Tree
 
                 if (!ReferenceEquals(tree.Left, null))
                 {
-                    foreach (var item in GetPrefixEnumerator<T>(tree.Left))
+                    foreach (var item in GetPrefixEnumerator(tree.Left))
                     {
                         yield return item;
                     }
@@ -196,9 +217,9 @@ namespace Tree
                 break;
             }
         }
-        
+
         /// <summary>
-        /// POSTFIX
+        /// POSTFIX_TRAVERSE
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="root"></param>
