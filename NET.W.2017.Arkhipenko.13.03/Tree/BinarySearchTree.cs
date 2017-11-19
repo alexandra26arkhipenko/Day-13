@@ -7,6 +7,8 @@ namespace Tree
 {
     public class BinarySearchTree<T> :  IEnumerable<T>, IEnumerable
     {
+        
+
         #region private fields
         private Tree<T> _tree;
         private int _count;
@@ -18,8 +20,12 @@ namespace Tree
         {
             Comparer = (lhs, rhs) => GetComparer<T>().Compare(lhs, rhs);
         }
+        public BinarySearchTree(Comparison<T> comparer)
+        {
+            Comparer = comparer;
+        }
         #endregion
-        
+
         #region public
 
         #region functions of the tree
