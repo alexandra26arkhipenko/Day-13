@@ -1,11 +1,12 @@
 ﻿using System;
-using System.ComponentModel;
+
 
 namespace MatrixSquare
 {
     public class MatrixSquareDiagonal<T> : MatrixSquare<T>
     {
 
+        private readonly T[] _arrayMatrix;
         #region ctor
         /// <summary>
         /// Public constructor.
@@ -13,6 +14,7 @@ namespace MatrixSquare
         /// <param name="size">size of square matrix</param>
         public MatrixSquareDiagonal(int size) : base(size, size)
         {
+            _arrayMatrix = new T[size];
         }
         #endregion
 
@@ -39,7 +41,7 @@ namespace MatrixSquare
 
                 if (i == j)
                 {
-                    return arrayMatrix[i];
+                    return _arrayMatrix[i];
                 }
 
                 return default(T);
@@ -58,10 +60,10 @@ namespace MatrixSquare
 
                 if (i == j)
                 {
-                    if (!arrayMatrix[i].Equals(value))
+                    if (!_arrayMatrix[i].Equals(value))
                     {
-                        var oldVAlue = arrayMatrix[i];
-                        arrayMatrix[i] = value;
+                        var oldVAlue = _arrayMatrix[i];
+                        _arrayMatrix[i] = value;
                         OnChangeIndex(new ChangeIndexEventArgs<T>(i, j, oldVAlue));
 
                     }

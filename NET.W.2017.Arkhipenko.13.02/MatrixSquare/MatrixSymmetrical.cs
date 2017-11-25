@@ -1,23 +1,28 @@
 ﻿using System;
-using System.Drawing;
 
 namespace MatrixSquare
 {
     public class MatrixSymmetrical<T> : MatrixSquare<T>
     {
+        private readonly T[] _arrayMatrix;
+
         #region ctor
+
         /// <summary>
-        /// Public constructor.
+        ///     Public constructor.
         /// </summary>
         /// <param name="size">size of square matrix</param>
-        public MatrixSymmetrical(int size) : base(size, (size*size + size)/2)
+        public MatrixSymmetrical(int size) : base(size, (size * size + size) / 2)
         {
+            _arrayMatrix = new T[(size * size + size) / 2];
         }
+
         #endregion
 
         #region public
+
         /// <summary>
-        /// Indexer. Return the element of the symmetrical matrix.
+        ///     Indexer. Return the element of the symmetrical matrix.
         /// </summary>
         /// <param name="i">The row number in the matrix.</param>
         /// <param name="j">The column number in the matrix.</param>
@@ -38,7 +43,7 @@ namespace MatrixSquare
                     i = j;
                     j = k;
                 }
-                return arrayMatrix[i * Size + j - Sum(i)];
+                return _arrayMatrix[i * Size + j - Sum(i)];
             }
             set
             {
@@ -55,28 +60,27 @@ namespace MatrixSquare
                     j = k;
                 }
 
-                if (!arrayMatrix[i * Size + j - Sum(i)].Equals(value))
+                if (!_arrayMatrix[i * Size + j - Sum(i)].Equals(value))
                 {
-                    var oldVAlue = arrayMatrix[i * Size + j - Sum(i)];
-                    arrayMatrix[i * Size + j - Sum(i)] = value;
+                    var oldVAlue = _arrayMatrix[i * Size + j - Sum(i)];
+                    _arrayMatrix[i * Size + j - Sum(i)] = value;
                     OnChangeIndex(new ChangeIndexEventArgs<T>(i, j, oldVAlue));
                 }
             }
         }
+
         #endregion
 
         #region private
-        
+
         private int Sum(int i)
         {
             var sum = 0;
             for (var j = 0; j <= i; j++)
-            {
                 sum += j;
-            }
             return sum;
         }
-#endregion
+
+        #endregion
     }
-}
 }
